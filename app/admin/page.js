@@ -1,15 +1,25 @@
 'use client';
 
-import { useState } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation"; 
+import { useEffect, useState } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // If the user is already logged in, redirect to /admin/dashboard
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/admin/dashboard");
+    }
+  }, [status, router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +27,7 @@ export default function LoginPage() {
     setError("");
 
     const result = await signIn("credentials", {
-      redirect: false, 
+      redirect: false,
       email,
       password,
     });
@@ -58,7 +68,7 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            {/* Password Field */}
+            {/* Password Field with Show/Hide Toggle */}
             <div className="relative">
               <label htmlFor="password" className="sr-only">
                 Password
@@ -66,7 +76,7 @@ export default function LoginPage() {
               <input
                 id="password"
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
                 required
                 className="appearance-none block w-full px-3 py-2 border border-black dark:border-white placeholder-gray-600 dark:placeholder-gray-400 text-black dark:text-white bg-white dark:bg-black rounded-md"
@@ -74,6 +84,13 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 dark:text-gray-400"
+              >
+                {showPassword ? <FiEyeOff className="h-6 w-6" /> : <FiEye className="h-6 w-6" />}
+              </button>
             </div>
           </div>
           {/* Submit Button */}
