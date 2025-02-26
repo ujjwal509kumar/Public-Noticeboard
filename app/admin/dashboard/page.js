@@ -47,13 +47,10 @@ export default function DashboardPage() {
               </div>
               <nav className="space-y-4">
                 <Link href="/admin/upload" className="block px-5 py-3 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition">
-                  
-                    Upload Documents
-                  
+                  Upload Documents
                 </Link>
                 <Link href="/admin/my-documents" className="block px-5 py-3 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition">
-                    My Documents
-                 
+                  My Documents
                 </Link>
                 <button
                   onClick={() => signOut({ redirect: true, callbackUrl: '/' })}
