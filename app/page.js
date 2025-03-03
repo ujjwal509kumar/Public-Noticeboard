@@ -26,7 +26,6 @@ export default function Home() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6 text-center">Public Notice Board</h1>
-      {/* Improved filter section */}
       <div className="flex justify-center mb-6">
         <div className="flex items-center space-x-4">
           <label
